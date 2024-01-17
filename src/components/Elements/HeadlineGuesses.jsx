@@ -1,7 +1,7 @@
-export default function HeadlineGuesses() {
+export default function HeadlineGuesses({ newsItem }) {
   return (
     <div>
-      <h1>Guesses</h1>
+      <h1 className="font-bold">Headline Guesses</h1>
     </div>
   );
 }
