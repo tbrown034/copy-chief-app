@@ -52,7 +52,7 @@ export default function GameMenu({ backToMenu }) {
             availableWords={availableWords}
             setAvailableWords={setAvailableWords}
           />
-          <HeadlineGuesses />
+          <HeadlineGuesses newsItems={newsItems} />
           <HeadlineAnswers newsItems={newsItems} />
           {/* Other components can be added here */}
           <div className="flex justify-center">
