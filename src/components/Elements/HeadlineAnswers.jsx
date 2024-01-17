@@ -1,11 +1,13 @@
-export default function HeadlineAnswers({ newsItem }) {
+export default function HeadlineAnswers({ newsItems }) {
   return (
     <div>
       <h1 className="font-bold">Headline Answers</h1>
 
       <ul>
-        {newsItem.map((item, index) => (
-          <li key={index}>{item.title}</li>
+        {newsItems.map((item, index) => (
+          <li key={index}>
+            <h2>{item.title}</h2>
+          </li>
         ))}
       </ul>
     </div>

@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import HeadlineAnswers from "../Elements/HeadlineAnswers";
 import HeadlineGuesses from "../Elements/HeadlineGuesses";
 import HeadlineOptions from "../Elements/HeadlineOptions";
 import Header from "./Header";
 
 export default function GameMenu({ backToMenu }) {
-  const [newsItem, setNewsItem] = useState([]);
+  const [newsItems, setNewsItems] = useState([]);
+  const [availableWords, setAvailableWords] = useState([]);
   const [error, setError] = useState(null);
   const API_KEY = import.meta.env.VITE_NYT_API_KEY;
   const numOfNewsArticles = 2;
@@ -20,7 +21,10 @@ export default function GameMenu({ backToMenu }) {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        setNewsItem(data.results.slice(0, numOfNewsArticles));
+        const fetchedNewsItems = data.results.slice(0, numOfNewsArticles);
+        setNewsItems(fetchedNewsItems);
+        const words = processHeadlines(fetchedNewsItems);
+        setAvailableWords(words);
       } catch (error) {
         console.error("There was a problem with the fetch operation", error);
         setError("Failed to load headlines");
@@ -29,26 +33,38 @@ export default function GameMenu({ backToMenu }) {
     fetchHeadlines();
   }, []);
 
-  return error ? (
-    <div>Error: {error}</div>
-  ) : !newsItem.length ? (
-    <div>Loading headlines...</div>
-  ) : (
-    <div className="min-h-screen ">
+  const processHeadlines = (fetchedNewsItems) => {
+    return fetchedNewsItems.flatMap((item) =>
+      item.title.split(/\s+/).map((word) => ({ text: word }))
+    );
+  };
+
+  return (
+    <div className="min-h-screen">
       <Header />
-      <div className="flex flex-col gap-2">
-        <HeadlineGuesses newsItem={newsItem} />
-        <HeadlineOptions newsItem={newsItem} />
-        <HeadlineAnswers newsItem={newsItem} />
-        <div className="flex justify-center">
-          <button
-            onClick={backToMenu}
-            className="p-2 px-12 text-lg bg-sky-900 hover:bg-sky-700 active:bg-sky-600 text-sky-100 rounded-xl"
-          >
-            Back
-          </button>
+      {error ? (
+        <div>Error: {error}</div>
+      ) : !newsItems.length ? (
+        <div>Loading headlines...</div>
+      ) : (
+        <div className="flex flex-col gap-2">
+          <HeadlineOptions
+            availableWords={availableWords}
+            setAvailableWords={setAvailableWords}
+          />
+          <HeadlineGuesses />
+          <HeadlineAnswers newsItems={newsItems} />
+          {/* Other components can be added here */}
+          <div className="flex justify-center">
+            <button
+              onClick={backToMenu}
+              className="p-2 px-12 text-lg bg-sky-900 hover:bg-sky-700 active:bg-sky-600 text-sky-100 rounded-xl"
+            >
+              Back
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
