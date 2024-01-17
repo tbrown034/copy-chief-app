@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
 import DraggableWord from "../SubElements/DraggableWord";
 
-export default function HeadlineOptions({ availableWords }) {
+export default function HeadlineOptions({ availableWords, newsItem }) {
   const [sortOrder, setSortOrder] = useState("asc");
 
   const sortedWords = useMemo(() => {

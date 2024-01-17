@@ -9,6 +9,7 @@ import Header from "./Header";
 export default function GameMenu({ backToMenu }) {
   const [newsItems, setNewsItems] = useState([]);
   const [availableWords, setAvailableWords] = useState([]);
+  const [wordPlacements, setWordPlacements] = useState({});
   const [error, setError] = useState(null);
   const API_KEY = import.meta.env.VITE_NYT_API_KEY;
   const numOfNewsArticles = 2;
@@ -41,6 +42,19 @@ export default function GameMenu({ backToMenu }) {
     );
   };
 
+  const handleWordDrop = (droppedWord, headlineIndex, wordIndex) => {
+    setWordPlacements((prev) => {
+      const newPlacements = { ...prev };
+      if (!newPlacements[headlineIndex]) {
+        newPlacements[headlineIndex] = Array(
+          newsItems[headlineIndex].title.split(" ").length
+        ).fill(null);
+      }
+      newPlacements[headlineIndex][wordIndex] = droppedWord.text;
+      return newPlacements;
+    });
+  };
+
   return (
     <div className="min-h-screen">
       <Header />
@@ -52,13 +66,17 @@ export default function GameMenu({ backToMenu }) {
         <DndProvider backend={HTML5Backend}>
           <div className="flex flex-col gap-2">
             <HeadlineOptions
-              newsItems={newsItems}
               availableWords={availableWords}
               setAvailableWords={setAvailableWords}
             />
-            <HeadlineGuesses newsItems={newsItems} />
-            <HeadlineAnswers newsItems={newsItems} />
-            {/* Other components can be added here */}
+            <HeadlineGuesses
+              newsItems={newsItems}
+              handleWordDrop={handleWordDrop}
+            />
+            <HeadlineAnswers
+              newsItems={newsItems}
+              handleWordDrop={handleWordDrop}
+            />
             <div className="flex justify-center">
               <button
                 onClick={backToMenu}

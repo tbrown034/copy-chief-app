@@ -1,6 +1,7 @@
 import React from "react";
+import DropZone from "../SubElements/DropZone";
 
-export default function HeadlineGuesses({ newsItems }) {
+export default function HeadlineGuesses({ newsItems, handleWordDrop }) {
   if (!Array.isArray(newsItems) || newsItems.length === 0) {
     return <div>Loading headlines or no headlines available...</div>;
   }
@@ -14,12 +15,14 @@ export default function HeadlineGuesses({ newsItems }) {
             Headline #{index + 1}: ({item.title.split(" ").length} words)
           </div>
           <div className="flex flex-wrap gap-2">
+            // Inside HeadlineGuesses component render method
             {item.title.split(" ").map((_, wordIndex) => (
-              <div
+              <DropZone
                 key={wordIndex}
-                className="w-24 h-12 bg-sky-500 text-red-50"
-                // Placeholder for the draggable word drop zones
-              ></div>
+                onDrop={(droppedWord) =>
+                  handleWordDrop(droppedWord, index, wordIndex)
+                }
+              />
             ))}
           </div>
         </div>
