@@ -37,7 +37,7 @@ export default function GameMenu({ backToMenu }) {
     <div className="min-h-screen ">
       <Header />
       <div className="flex flex-col gap-2">
-        <HeadlineGuesses />
+        <HeadlineGuesses newsItem={newsItem} />
         <HeadlineOptions newsItem={newsItem} />
         <HeadlineAnswers newsItem={newsItem} />
         <div className="flex justify-center">

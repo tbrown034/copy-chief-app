@@ -31,12 +31,14 @@ export default function HeadlineOptions({ newsItem }) {
   return (
     <div className="flex flex-col gap-2">
       <h1 className="font-bold">Headline Options</h1>
-      <button
-        className="p-2 text-sm bg-sky-900 hover:bg-sky-700 active:bg-sky-600 text-sky-100 rounded-xl"
-        onClick={toggleSortOrder}
-      >
-        Sort {sortOrder === "asc" ? "Z-A" : "A-Z"}
-      </button>
+      <div>
+        <button
+          className="p-2 text-sm bg-sky-900 hover:bg-sky-700 active:bg-sky-600 text-sky-100 rounded-xl"
+          onClick={toggleSortOrder}
+        >
+          Sort {sortOrder === "asc" ? "Z-A" : "A-Z"}
+        </button>
+      </div>
       <div className="flex flex-wrap gap-2">
         {sortedWords.map((word, index) => (
           <div key={index} className="p-2 text-lg rounded-lg bg-sky-300">
