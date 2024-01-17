@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import HeadlineAnswers from "../Elements/HeadlineAnswers";
 import HeadlineGuesses from "../Elements/HeadlineGuesses";
 import HeadlineOptions from "../Elements/HeadlineOptions";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import Header from "./Header";
 
 export default function GameMenu({ backToMenu }) {
@@ -47,23 +49,26 @@ export default function GameMenu({ backToMenu }) {
       ) : !newsItems.length ? (
         <div>Loading headlines...</div>
       ) : (
-        <div className="flex flex-col gap-2">
-          <HeadlineOptions
-            availableWords={availableWords}
-            setAvailableWords={setAvailableWords}
-          />
-          <HeadlineGuesses newsItems={newsItems} />
-          <HeadlineAnswers newsItems={newsItems} />
-          {/* Other components can be added here */}
-          <div className="flex justify-center">
-            <button
-              onClick={backToMenu}
-              className="p-2 px-12 text-lg bg-sky-900 hover:bg-sky-700 active:bg-sky-600 text-sky-100 rounded-xl"
-            >
-              Back
-            </button>
+        <DndProvider backend={HTML5Backend}>
+          <div className="flex flex-col gap-2">
+            <HeadlineOptions
+              newsItems={newsItems}
+              availableWords={availableWords}
+              setAvailableWords={setAvailableWords}
+            />
+            <HeadlineGuesses newsItems={newsItems} />
+            <HeadlineAnswers newsItems={newsItems} />
+            {/* Other components can be added here */}
+            <div className="flex justify-center">
+              <button
+                onClick={backToMenu}
+                className="p-2 px-12 text-lg bg-sky-900 hover:bg-sky-700 active:bg-sky-600 text-sky-100 rounded-xl"
+              >
+                Back
+              </button>
+            </div>
           </div>
-        </div>
+        </DndProvider>
       )}
     </div>
   );

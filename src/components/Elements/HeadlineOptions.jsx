@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react";
+import DraggableWord from "../SubElements/DraggableWord";
 
 export default function HeadlineOptions({ availableWords }) {
   const [sortOrder, setSortOrder] = useState("asc");
@@ -30,9 +31,12 @@ export default function HeadlineOptions({ availableWords }) {
       </button>
       <div className="flex flex-wrap gap-2">
         {sortedWords.map((word, index) => (
-          <div key={index} className="p-2 text-lg rounded-lg bg-sky-300">
-            {word.text}
-          </div>
+          <DraggableWord
+            key={index}
+            id={index}
+            word={word.text}
+            isDropped={false}
+          />
         ))}
       </div>
     </div>
