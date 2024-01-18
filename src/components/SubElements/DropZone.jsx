@@ -1,7 +1,7 @@
 import React from "react";
 import { useDrop } from "react-dnd";
 
-const DropZone = ({ onDrop }) => {
+const DropZone = ({ onDrop, currentWord }) => {
   const [{ isOver }, dropRef] = useDrop({
     accept: "word",
     drop: (item) => {
@@ -25,7 +25,7 @@ const DropZone = ({ onDrop }) => {
 
   return (
     <div ref={dropRef} style={style}>
-      {/* Display dropped word or placeholder */}
+      {currentWord && <div>{currentWord}</div>} {/* Display the current word */}
     </div>
   );
 };

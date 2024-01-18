@@ -1,7 +1,11 @@
 import React from "react";
 import DropZone from "../SubElements/DropZone";
 
-export default function HeadlineGuesses({ newsItems, handleWordDrop }) {
+export default function HeadlineGuesses({
+  newsItems,
+  handleWordDrop,
+  wordPlacements,
+}) {
   if (!Array.isArray(newsItems) || newsItems.length === 0) {
     return <div>Loading headlines or no headlines available...</div>;
   }
@@ -22,6 +26,7 @@ export default function HeadlineGuesses({ newsItems, handleWordDrop }) {
                 onDrop={(droppedWord) =>
                   handleWordDrop(droppedWord, index, wordIndex)
                 }
+                currentWord={wordPlacements[index]?.[wordIndex] || null} // Pass the current word
               />
             ))}
           </div>

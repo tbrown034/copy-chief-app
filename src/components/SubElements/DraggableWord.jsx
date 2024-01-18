@@ -1,15 +1,19 @@
 // DraggableWord.jsx
 import React from "react";
 import { useDrag } from "react-dnd";
-
 export default function DraggableWord({ word, id, isDropped }) {
   const [{ isDragging }, dragRef] = useDrag(() => ({
     type: "word",
     item: { id, word },
-    canDrag: !isDropped, // Can drag only if not dropped
+    canDrag: !isDropped,
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
+    end: (item, monitor) => {
+      if (monitor.didDrop()) {
+        console.log("Dropped item:", item);
+      }
+    },
   }));
 
   let classes = isDropped ? "bg-gray-400" : "bg-blue-200";

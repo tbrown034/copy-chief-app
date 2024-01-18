@@ -43,6 +43,15 @@ export default function GameMenu({ backToMenu }) {
   };
 
   const handleWordDrop = (droppedWord, headlineIndex, wordIndex) => {
+    console.log(
+      "Dropped word:",
+      droppedWord.text,
+      "at headline:",
+      headlineIndex,
+      "word index:",
+      wordIndex
+    );
+
     setWordPlacements((prev) => {
       const newPlacements = { ...prev };
       if (!newPlacements[headlineIndex]) {
@@ -51,6 +60,8 @@ export default function GameMenu({ backToMenu }) {
         ).fill(null);
       }
       newPlacements[headlineIndex][wordIndex] = droppedWord.text;
+      console.log("New word placements:", newPlacements);
+
       return newPlacements;
     });
   };
@@ -72,6 +83,7 @@ export default function GameMenu({ backToMenu }) {
             <HeadlineGuesses
               newsItems={newsItems}
               handleWordDrop={handleWordDrop}
+              wordPlacements={wordPlacements}
             />
             <HeadlineAnswers
               newsItems={newsItems}
