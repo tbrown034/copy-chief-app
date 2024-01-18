@@ -5,10 +5,17 @@ export default function HeadlineGuesses({
   newsItems,
   handleWordDrop,
   wordPlacements,
+  clearOneHeadline,
+  clearAllHeadlines,
 }) {
   if (!Array.isArray(newsItems) || newsItems.length === 0) {
     return <div>Loading headlines or no headlines available...</div>;
   }
+
+  // Clear a single headline
+  const handleClearOne = (index) => {
+    clearOneHeadline(index);
+  };
 
   return (
     <div className="flex flex-col gap-2">
@@ -19,19 +26,32 @@ export default function HeadlineGuesses({
             Headline #{index + 1}: ({item.title.split(" ").length} words)
           </div>
           <div className="flex flex-wrap gap-2">
-            // Inside HeadlineGuesses component render method
             {item.title.split(" ").map((_, wordIndex) => (
               <DropZone
                 key={wordIndex}
                 onDrop={(droppedWord) =>
                   handleWordDrop(droppedWord, index, wordIndex)
                 }
-                currentWord={wordPlacements[index]?.[wordIndex] || null} // Pass the current word
+                currentWord={wordPlacements[index]?.[wordIndex] || null}
               />
             ))}
           </div>
+          <button
+            onClick={() => handleClearOne(index)}
+            className="p-2 text-sm text-white bg-red-500 hover:bg-red-400 rounded-xl"
+          >
+            Clear Headline
+          </button>
         </div>
       ))}
+      <div className="flex justify-center">
+        <button
+          onClick={clearAllHeadlines}
+          className="p-2 px-12 text-lg text-white bg-red-900 hover:bg-red-700 rounded-xl"
+        >
+          Clear All Headlines
+        </button>
+      </div>
     </div>
   );
 }
