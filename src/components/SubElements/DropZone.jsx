@@ -1,20 +1,38 @@
 import React from "react";
-import { useDrop } from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
 
-const DropZone = ({ onDrop, currentWord }) => {
-  const [{ isOver }, dropRef] = useDrop({
+const DropZone = ({ onDrop, onPickUp, index, currentWord }) => {
+  // Drop logic
+  const [{ isOverDrop }, drop] = useDrop({
     accept: "word",
     drop: (item) => {
-      onDrop(item); // Implement logic for handling the dropped item
+      console.log("Item dropped in DropZone:", item);
+      onDrop(item, index); // Pass the index to identify the DropZone
     },
     collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
+      isOverDrop: !!monitor.isOver(),
     }),
   });
 
-  // Style changes when a word is over the drop zone
-  const style = {
-    backgroundColor: isOver ? "lightblue" : "lightgrey",
+  // Drag logic after dropping
+  const [{ isDragging }, drag] = useDrag({
+    type: "word",
+    item: { type: "word", index, word: currentWord },
+    canDrag: currentWord != null, // Can drag only if a word is placed
+    end: (item, monitor) => {
+      if (!monitor.didDrop()) {
+        onPickUp(index); // Handle logic when dragged away and not dropped
+      }
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
+  // Styling
+  const baseStyle = {
+    backgroundColor: isOverDrop ? "lightblue" : "lightgrey",
+    opacity: isDragging ? 0.5 : 1, // Change opacity when dragging
     width: "100px",
     height: "50px",
     margin: "5px",
@@ -23,9 +41,15 @@ const DropZone = ({ onDrop, currentWord }) => {
     alignItems: "center",
   };
 
+  // Combine both drag and drop refs
+  const dropZoneRef = (el) => {
+    drag(el);
+    drop(el);
+  };
+
   return (
-    <div ref={dropRef} style={style}>
-      {currentWord && <div>{currentWord}</div>} {/* Display the current word */}
+    <div ref={dropZoneRef} style={baseStyle}>
+      {currentWord} {/* Display the current word */}
     </div>
   );
 };

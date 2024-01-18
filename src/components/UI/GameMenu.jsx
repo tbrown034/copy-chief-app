@@ -42,28 +42,25 @@ export default function GameMenu({ backToMenu }) {
     );
   };
 
-  const handleWordDrop = (droppedWord, headlineIndex, wordIndex) => {
-    console.log(
-      "Dropped word:",
-      droppedWord.text,
-      "at headline:",
-      headlineIndex,
-      "word index:",
-      wordIndex
-    );
-
+  const handleWordDrop = (droppedWord, newHeadlineIndex, newWordIndex) => {
     setWordPlacements((prev) => {
       const newPlacements = { ...prev };
-      if (!newPlacements[headlineIndex]) {
-        newPlacements[headlineIndex] = Array(
-          newsItems[headlineIndex].title.split(" ").length
+
+      // Clear the original position of the word
+      Object.keys(newPlacements).forEach((headlineIdx) => {
+        const idx = newPlacements[headlineIdx].indexOf(droppedWord.word);
+        if (idx !== -1) {
+          newPlacements[headlineIdx][idx] = null;
+        }
+      });
+
+      // Place the word in the new spot
+      if (!newPlacements[newHeadlineIndex]) {
+        newPlacements[newHeadlineIndex] = Array(
+          newsItems[newHeadlineIndex].title.split(" ").length
         ).fill(null);
       }
-
-      // Update this line to use droppedWord.word
-      newPlacements[headlineIndex][wordIndex] = droppedWord.word;
-
-      console.log("New word placements:", newPlacements);
+      newPlacements[newHeadlineIndex][newWordIndex] = droppedWord.word;
 
       return newPlacements;
     });
