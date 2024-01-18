@@ -59,7 +59,10 @@ export default function GameMenu({ backToMenu }) {
           newsItems[headlineIndex].title.split(" ").length
         ).fill(null);
       }
-      newPlacements[headlineIndex][wordIndex] = droppedWord.text;
+
+      // Update this line to use droppedWord.word
+      newPlacements[headlineIndex][wordIndex] = droppedWord.word;
+
       console.log("New word placements:", newPlacements);
 
       return newPlacements;
