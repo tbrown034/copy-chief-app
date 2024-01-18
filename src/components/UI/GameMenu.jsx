@@ -78,6 +78,30 @@ export default function GameMenu({ backToMenu }) {
     });
   };
 
+  // Clear words from one headline
+  const clearOneHeadline = (headlineIndex) => {
+    setWordPlacements((prev) => {
+      const newPlacements = { ...prev };
+      newPlacements[headlineIndex] = Array(
+        newsItems[headlineIndex].title.split(" ").length
+      ).fill(null);
+      return newPlacements;
+    });
+  };
+
+  // Clear words from all headlines
+  const clearAllHeadlines = () => {
+    setWordPlacements((prev) => {
+      const newPlacements = {};
+      Object.keys(prev).forEach((headlineIndex) => {
+        newPlacements[headlineIndex] = Array(
+          newsItems[headlineIndex].title.split(" ").length
+        ).fill(null);
+      });
+      return newPlacements;
+    });
+  };
+
   return (
     <div className="min-h-screen">
       <Header />
@@ -97,6 +121,8 @@ export default function GameMenu({ backToMenu }) {
               newsItems={newsItems}
               handleWordDrop={handleWordDrop}
               wordPlacements={wordPlacements}
+              clearOneHeadline={clearOneHeadline}
+              clearAllHeadlines={clearAllHeadlines}
             />
             <HeadlineAnswers
               newsItems={newsItems}

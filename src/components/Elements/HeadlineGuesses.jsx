@@ -37,7 +37,7 @@ export default function HeadlineGuesses({
             ))}
           </div>
           <button
-            onClick={() => handleClearOne(index)}
+            onClick={() => clearOneHeadline(index)}
             className="p-2 text-sm text-white bg-red-500 hover:bg-red-400 rounded-xl"
           >
             Clear Headline
