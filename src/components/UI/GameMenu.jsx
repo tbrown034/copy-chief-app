@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import HeadlineAnswers from "../Elements/HeadlineAnswers";
 import HeadlineGuesses from "../Elements/HeadlineGuesses";
 import HeadlineOptions from "../Elements/HeadlineOptions";
@@ -42,6 +42,18 @@ export default function GameMenu({ backToMenu }) {
     );
   };
 
+  const usedWords = useMemo(() => {
+    const used = new Set();
+    Object.values(wordPlacements).forEach((headline) => {
+      headline.forEach((word) => {
+        if (word !== null) {
+          used.add(word);
+        }
+      });
+    });
+    return used;
+  }, [wordPlacements]);
+
   const handleWordDrop = (droppedWord, newHeadlineIndex, newWordIndex) => {
     setWordPlacements((prev) => {
       const newPlacements = { ...prev };
@@ -79,6 +91,7 @@ export default function GameMenu({ backToMenu }) {
             <HeadlineOptions
               availableWords={availableWords}
               setAvailableWords={setAvailableWords}
+              usedWords={usedWords}
             />
             <HeadlineGuesses
               newsItems={newsItems}

@@ -1,18 +1,16 @@
 import React, { useState, useMemo } from "react";
 import DraggableWord from "../SubElements/DraggableWord";
 
-export default function HeadlineOptions({ availableWords, newsItem }) {
+export default function HeadlineOptions({ availableWords, usedWords }) {
   const [sortOrder, setSortOrder] = useState("asc");
 
   const sortedWords = useMemo(() => {
     return [...availableWords].sort((a, b) => {
       const wordA = a.text.toLowerCase();
       const wordB = b.text.toLowerCase();
-      if (sortOrder === "asc") {
-        return wordA.localeCompare(wordB);
-      } else {
-        return wordB.localeCompare(wordA);
-      }
+      return sortOrder === "asc"
+        ? wordA.localeCompare(wordB)
+        : wordB.localeCompare(wordA);
     });
   }, [availableWords, sortOrder]);
 
@@ -30,14 +28,17 @@ export default function HeadlineOptions({ availableWords, newsItem }) {
         Sort {sortOrder === "asc" ? "Z-A" : "A-Z"}
       </button>
       <div className="flex flex-wrap gap-2">
-        {sortedWords.map((word, index) => (
-          <DraggableWord
-            key={index}
-            id={index}
-            word={word.text}
-            isDropped={false}
-          />
-        ))}
+        {sortedWords.map((wordObj, index) => {
+          const isUsed = usedWords.has(wordObj.text); // Determine if the word is used
+          return (
+            <DraggableWord
+              key={index}
+              id={index}
+              word={wordObj.text}
+              isDropped={isUsed} // Pass isUsed as the isDropped prop
+            />
+          );
+        })}
       </div>
     </div>
   );
