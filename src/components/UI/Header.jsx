@@ -8,7 +8,7 @@ export default function Header() {
           <span>Chief</span>
         </div>
       </div>
-      <button className="p-2 text-xs bg-sky-900 hover:bg-sky-700 active:bg-sky-600 text-sky-100 rounded-xl">
+      <button className="p-2 text-xs text-white bg-sky-800 hover:bg-sky-700 active:bg-sky-600 rounded-xl">
         Light/Dark Mode
       </button>
     </div>

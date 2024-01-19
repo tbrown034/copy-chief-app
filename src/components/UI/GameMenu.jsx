@@ -112,11 +112,6 @@ export default function GameMenu({ backToMenu }) {
       ) : (
         <DndProvider backend={HTML5Backend}>
           <div className="flex flex-col gap-2">
-            <HeadlineOptions
-              availableWords={availableWords}
-              setAvailableWords={setAvailableWords}
-              usedWords={usedWords}
-            />
             <HeadlineGuesses
               newsItems={newsItems}
               handleWordDrop={handleWordDrop}
@@ -124,10 +119,15 @@ export default function GameMenu({ backToMenu }) {
               clearOneHeadline={clearOneHeadline}
               clearAllHeadlines={clearAllHeadlines}
             />
-            <HeadlineAnswers
+            <HeadlineOptions
+              availableWords={availableWords}
+              setAvailableWords={setAvailableWords}
+              usedWords={usedWords}
+            />
+            {/* <HeadlineAnswers
               newsItems={newsItems}
               handleWordDrop={handleWordDrop}
-            />
+            /> */}
             <div className="flex justify-center">
               <button
                 onClick={backToMenu}

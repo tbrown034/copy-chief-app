@@ -22,13 +22,13 @@ export default function DraggableWord({
     },
   }));
 
-  let classes = isDropped ? "bg-gray-400" : "bg-blue-200";
+  let classes = isDropped ? "opacity-40" : "bg-gray-400 font-bold";
   if (isDragging) {
-    classes += " bg-red-400";
+    classes += " bg-gray-300";
   }
 
   return (
-    <div ref={dragRef} className={`p-2 text-lg rounded-xl ${classes}`}>
+    <div ref={dragRef} className={`p-2  rounded-lg ${classes}`}>
       {word}
     </div>
   );

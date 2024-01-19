@@ -29,17 +29,17 @@ const DropZone = ({ onDrop, onPickUp, index, currentWord }) => {
     }),
   });
 
-  // Styling
-  const baseStyle = {
-    backgroundColor: isOverDrop ? "lightblue" : "lightgrey",
-    opacity: isDragging ? 0.5 : 1, // Change opacity when dragging
-    width: "100px",
-    height: "50px",
-    margin: "5px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  };
+  // // Styling
+  // const baseStyle = {
+  //   backgroundColor: isOverDrop ? "lightblue" : "lightgrey",
+  //   opacity: isDragging ? 0.5 : 1, // Change opacity when dragging
+  //   width: "100px",
+  //   height: "50px",
+  //   margin: "5px",
+  //   display: "flex",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // };
 
   // Combine both drag and drop refs
   const dropZoneRef = (el) => {
@@ -48,7 +48,10 @@ const DropZone = ({ onDrop, onPickUp, index, currentWord }) => {
   };
 
   return (
-    <div ref={dropZoneRef} style={baseStyle}>
+    <div
+      ref={dropZoneRef}
+      className="flex items-center justify-center w-24 h-10 text-sm font-bold bg-white border-2 border-sky-900 "
+    >
       {currentWord} {/* Display the current word */}
     </div>
   );

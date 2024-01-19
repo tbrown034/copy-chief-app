@@ -21,12 +21,14 @@ export default function HeadlineOptions({ availableWords, usedWords }) {
   return (
     <div className="flex flex-col gap-2">
       <h1 className="font-bold">Headline Options</h1>
-      <button
-        onClick={toggleSortOrder}
-        className="p-2 text-sm bg-sky-900 hover:bg-sky-700 active:bg-sky-600 text-sky-100 rounded-xl"
-      >
-        Sort {sortOrder === "asc" ? "Z-A" : "A-Z"}
-      </button>
+      <div>
+        <button
+          onClick={toggleSortOrder}
+          className="p-2 text-sm text-white bg-sky-800 hover:bg-sky-700 active:bg-sky-600 rounded-xl"
+        >
+          Sort {sortOrder === "asc" ? "Z-A ↓" : "A-Z ↑"}
+        </button>
+      </div>
       <div className="flex flex-wrap gap-2">
         {sortedWords.map((wordObj, index) => {
           const isUsed = usedWords.has(wordObj.text); // Determine if the word is used
