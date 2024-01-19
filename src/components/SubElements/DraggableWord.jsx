@@ -1,16 +1,10 @@
-// DraggableWord.jsx
 import React from "react";
 import { useDrag } from "react-dnd";
-export default function DraggableWord({
-  word,
-  id,
-  isDropped,
-  originalHeadlineIndex,
-  originalWordIndex,
-}) {
+
+export default function DraggableWord({ word, id, isDropped }) {
   const [{ isDragging }, dragRef] = useDrag(() => ({
     type: "word",
-    item: { id, word, originalHeadlineIndex, originalWordIndex },
+    item: { id, word },
     canDrag: !isDropped,
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -22,13 +16,12 @@ export default function DraggableWord({
     },
   }));
 
-  let classes = isDropped ? "opacity-40" : "bg-gray-400 font-bold";
-  if (isDragging) {
-    classes += " bg-gray-300";
-  }
+  let classes = `p-2 rounded-lg ${
+    isDropped ? "opacity-40" : "bg-gray-400 font-bold"
+  } ${isDragging ? "bg-gray-300" : ""}`;
 
   return (
-    <div ref={dragRef} className={`p-2  rounded-lg ${classes}`}>
+    <div ref={dragRef} className={classes}>
       {word}
     </div>
   );

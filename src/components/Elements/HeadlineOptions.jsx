@@ -25,19 +25,22 @@ export default function HeadlineOptions({ availableWords, usedWords }) {
         <button
           onClick={toggleSortOrder}
           className="p-2 text-sm text-white bg-sky-800 hover:bg-sky-700 active:bg-sky-600 rounded-xl"
+          aria-label={`Sort words ${
+            sortOrder === "asc" ? "descending" : "ascending"
+          }`}
         >
           Sort {sortOrder === "asc" ? "Z-A ↓" : "A-Z ↑"}
         </button>
       </div>
       <div className="flex flex-wrap gap-2">
-        {sortedWords.map((wordObj, index) => {
-          const isUsed = usedWords.has(wordObj.text); // Determine if the word is used
+        {sortedWords.map((wordObj) => {
+          const isUsed = usedWords.has(wordObj.id);
           return (
             <DraggableWord
-              key={index}
-              id={index}
+              key={wordObj.id}
+              id={wordObj.id}
               word={wordObj.text}
-              isDropped={isUsed} // Pass isUsed as the isDropped prop
+              isDropped={isUsed}
             />
           );
         })}
