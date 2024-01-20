@@ -1,10 +1,14 @@
 import React from "react";
 import { useDrag, useDrop } from "react-dnd";
 
-const DropZone = ({ onDrop, index, currentWord }) => {
+const DropZone = ({ onDrop, currentWord }) => {
   const [{ isOverDrop }, drop] = useDrop({
     accept: "word",
-    drop: (item) => onDrop(item, index),
+    drop: (item, monitor) => {
+      // Check if the item has 'currentWord' property and use it if available
+      const wordToDrop = item.currentWord ? item.currentWord : item;
+      onDrop(wordToDrop);
+    },
     collect: (monitor) => ({
       isOverDrop: !!monitor.isOver(),
     }),
@@ -12,7 +16,10 @@ const DropZone = ({ onDrop, index, currentWord }) => {
 
   const [{ isDragging }, drag] = useDrag({
     type: "word",
-    item: { type: "word", index, word: currentWord },
+    item: () => {
+      // Ensure the structure of the item is consistent
+      return { type: "word", id: currentWord.id, word: currentWord.word };
+    },
     canDrag: currentWord != null,
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
@@ -35,7 +42,11 @@ const DropZone = ({ onDrop, index, currentWord }) => {
 
   return (
     <div ref={dropZoneRef} className={classNames}>
-      {currentWord && <div>{currentWord.id}</div>}
+      {currentWord &&
+      typeof currentWord === "object" &&
+      "word" in currentWord ? (
+        <span>{currentWord.word}</span>
+      ) : null}
     </div>
   );
 };

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 
 import HeadlineGuesses from "../Elements/HeadlineGuesses";
 import HeadlineOptions from "../Elements/HeadlineOptions";
+import HeadlineAnswers from "../Elements/HeadlineAnswers";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Header from "./Header";
@@ -134,10 +135,10 @@ export default function GameMenu({ backToMenu }) {
               setAvailableWords={setAvailableWords}
               usedWords={usedWords}
             />
-            {/* <HeadlineAnswers
+            <HeadlineAnswers
               newsItems={newsItems}
               handleWordDrop={handleWordDrop}
-            /> */}
+            />
             <div className="flex justify-center">
               <button
                 onClick={backToMenu}
