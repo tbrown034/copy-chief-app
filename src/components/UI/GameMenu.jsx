@@ -6,6 +6,7 @@ import HeadlineAnswers from "../Elements/HeadlineAnswers";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import Header from "./Header";
+import { fetchHeadlines } from "../../helpers/headlineUtils";
 
 export default function GameMenu({ backToMenu }) {
   const [newsItems, setNewsItems] = useState([]);
@@ -18,38 +19,15 @@ export default function GameMenu({ backToMenu }) {
   const numOfNewsArticles = 2;
 
   useEffect(() => {
-    let wordIdCounter = 0; // Persistent counter across component re-renders
-    const fetchHeadlines = async () => {
-      try {
-        const response = await fetch(
-          `https://api.nytimes.com/svc/topstories/v2/home.json?api-key=${API_KEY}`
-        );
-        if (!response.ok) {
-          throw new Error(`HTTP Error: ${response.status}`);
-        }
-        const data = await response.json();
-        const fetchedNewsItems = data.results.slice(0, numOfNewsArticles);
-        setNewsItems(fetchedNewsItems);
-        const words = processHeadlines(fetchedNewsItems, wordIdCounter);
-        setAvailableWords(words);
-        setLoading(false);
-      } catch (error) {
-        console.error("Fetch operation error: ", error);
-        setError(`Failed to load headlines: ${error.message}`);
-        setLoading(false);
-      }
-    };
-    fetchHeadlines();
-  }, [API_KEY]);
-
-  const processHeadlines = (fetchedNewsItems, wordIdCounter) => {
-    return fetchedNewsItems.flatMap((item) =>
-      item.title.split(/\s+/).map((word) => ({
-        text: word,
-        id: `word-${wordIdCounter++}`, // Unique ID for each word
-      }))
+    fetchHeadlines(
+      API_KEY,
+      numOfNewsArticles,
+      setNewsItems,
+      setAvailableWords,
+      setLoading,
+      setError
     );
-  };
+  }, [API_KEY]);
 
   const usedWords = useMemo(() => {
     const used = new Set();
